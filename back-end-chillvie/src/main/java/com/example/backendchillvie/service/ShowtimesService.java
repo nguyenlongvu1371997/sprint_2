@@ -19,6 +19,16 @@ public class ShowtimesService implements IShowtimesService{
     }
 
     @Override
+    public List<IShowtimesProjection> getShowtimesNextDayByMovieId(Long id) {
+        return iShowtimesRepository.getShowtimesNextDayByMovieId(id);
+    }
+
+    @Override
+    public List<IShowtimesProjection> getShowtimesDayAfterTomorrowByMovieId(Long id) {
+        return iShowtimesRepository.getShowtimesDayAfterTomorrowByMovieId(id);
+    }
+
+    @Override
     public Optional<Showtimes> getShowtimeById(Long id) {
         return iShowtimesRepository.getShowtimesByIdAndFlagDeletedIsFalse(id);
     }

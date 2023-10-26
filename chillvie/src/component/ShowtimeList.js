@@ -2,11 +2,18 @@ import { date } from "yup";
 import Header from "./Header";
 import { useEffect, useState } from "react";
 import { getMovieIsShowing } from "../service/MovieService";
-import { getShowtimesTodayByMovieId } from "../service/ShowtimesService";
+import { getShowtimesNextDayByMovieId, getShowtimesNextNextDayByMovieId, getShowtimesTodayByMovieId } from "../service/ShowtimesService";
 import { useNavigate } from "react-router-dom";
+import moment from "moment/moment";
 
 export default function ShowtimeList() {
     const [movies, setMovies] = useState([]);
+    const [day, setDay] = useState(1);
+    const today = moment().format('DD/MM/YYYY');
+    const tomorrow = moment().add(1, 'days').format('DD/MM/YYYY');
+    const dayAfterTomorrow = moment().add(2, 'days').format('DD/MM/YYYY');
+
+
 
     const navigate = useNavigate();
 
@@ -31,8 +38,13 @@ export default function ShowtimeList() {
 
                 </div>
                 <div className="col-8">
+                    <select onChange={(event) => setDay(event.target.value)}>
+                        <option value={1}>Today: {today}</option>
+                        <option value={2}>Tomorrow: {tomorrow}</option>
+                        <option value={3}>Next 2 day: {dayAfterTomorrow}</option>
+                    </select>
                     {movies.map((movie) => (
-                        <Movie key={movie.id} movie={movie} />
+                        <Movie key={movie.id} movie={movie} day={day} />
                     ))}
 
                 </div>
@@ -47,20 +59,27 @@ export default function ShowtimeList() {
     )
 }
 
-function Movie({ movie }) {
+function Movie({ movie, day }) {
     const [showtimes, setShowtime] = useState([]);
-
     const navigate = useNavigate();
 
     useEffect(() => {
         if (movie.id > 0) {
             getShowtimesByMovie();
         }
-    }, [])
+    }, [day])
 
     const getShowtimesByMovie = async () => {
-        const res = await getShowtimesTodayByMovieId(movie.id);
-        setShowtime((pre) => res);
+        if (day == 1) {
+            const res = await getShowtimesTodayByMovieId(movie.id);
+            setShowtime((pre) => res);
+        } else if (day == 2) {
+            const res = await getShowtimesNextDayByMovieId(movie.id);
+            setShowtime((pre) => res);
+        } else {
+            const res = await getShowtimesNextNextDayByMovieId(movie.id);
+            setShowtime((pre) => res);
+        }
     }
 
     const toSeat = (id) => {
@@ -76,8 +95,9 @@ function Movie({ movie }) {
                     <div className="w-100 flex">
                         <div>
                             {showtimes.map((showtime) => (
-                                <span onClick={()=>toSeat(showtime.id)} key={showtime.id} className="mx-2 px-2 border border-light rounded-3">
+                                <span onClick={() => toSeat(showtime.id)} key={showtime.id} className="mx-2 px-2 border border-light rounded-3">
                                     {showtime.timeShow.substring(11, 16)}
+                                  
                                 </span>
                             ))}
 

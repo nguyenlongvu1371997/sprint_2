@@ -55,7 +55,9 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/user/user-name",
                         "/api/movie/showing-movie",
                         "/api/movie/upcoming-movie",
-                        "/api/movie/movie"
+                        "/api/movie/movie",
+                        "/api/showtimes/movie-next-day",
+                        "/api/showtimes/movie-next-next-day"
                 ).permitAll()
                 .antMatchers(
                         "/api/seat/showtime",

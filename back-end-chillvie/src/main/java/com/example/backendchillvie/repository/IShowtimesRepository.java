@@ -15,5 +15,13 @@ public interface IShowtimesRepository extends JpaRepository<Showtimes,Long> {
             "where DATE(time_show) = curdate() and movie_id =:id")
     List<IShowtimesProjection> getShowtimesTodayByMovieId(@Param("id")Long id);
 
+    @Query(nativeQuery = true, value = "select id, time_show as timeShow from showtimes " +
+            "where DATE(time_show) = curdate() + INTERVAL 1 DAY and movie_id =:id")
+    List<IShowtimesProjection> getShowtimesNextDayByMovieId(@Param("id")Long id);
+
+    @Query(nativeQuery = true, value = "select id, time_show as timeShow from showtimes " +
+            "where DATE(time_show) = curdate() + INTERVAL 2 DAY and movie_id =:id")
+    List<IShowtimesProjection> getShowtimesDayAfterTomorrowByMovieId(@Param("id")Long id);
+
     Optional<Showtimes> getShowtimesByIdAndFlagDeletedIsFalse(Long id);
 }

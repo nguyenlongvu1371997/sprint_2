@@ -28,6 +28,16 @@ public class ShowtimesController {
         List<IShowtimesProjection> list = iShowtimesService.getShowtimesTodayByMovieId(id);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
+    @GetMapping("/movie-next-day")
+    public ResponseEntity<List<IShowtimesProjection>> getShowtimesNextDayByMovieId(@RequestParam("id")Long id){
+        List<IShowtimesProjection> list = iShowtimesService.getShowtimesNextDayByMovieId(id);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+    @GetMapping("/movie-next-next-day")
+    public ResponseEntity<List<IShowtimesProjection>> getShowtimesDayAfterTomorrowByMovieId(@RequestParam("id")Long id){
+        List<IShowtimesProjection> list = iShowtimesService.getShowtimesDayAfterTomorrowByMovieId(id);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
 
     @GetMapping("/showtime")
     public ResponseEntity<Showtimes> getShowtimeById(@RequestParam("id")Long id){
