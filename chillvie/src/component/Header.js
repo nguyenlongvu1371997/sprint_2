@@ -1,7 +1,18 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { logout } from "../service/AppUserService";
 
 
 export default function Header() {
+    const navigate = useNavigate();
+    const accessToken = localStorage.getItem("JWT");
+
+    const toLogin = () => {
+        navigate('/login');
+    }
+
+    const handleLogout = () => {
+        logout();
+    }
     return (
         <header>
             {/* Navigation Bar */}
@@ -22,7 +33,7 @@ export default function Header() {
                 <div>
                     {/* Add your user-related content here */}
                 </div>
-                <a href="#" className="user">
+                <a className="user">
                     <img
                         src="https://cdn.landesa.org/wp-content/uploads/default-user-image.png"
                         alt="user-img"
@@ -30,16 +41,18 @@ export default function Header() {
                     />
                     <span className="user-info">Login</span>
                     {/* Dropdown list Start */}
+
                     <div className="dropdown-list">
                         <div className="dropdown-item">
                             <i className="bx bx-cog"></i>
-                            <div className="dropdown-text">Preferences</div>
+                            <div className="dropdown-text" onClick={() => toLogin()}>Login</div>
                         </div>
                         <div className="dropdown-item">
                             <i className="bx bx-log-out-circle"></i>
-                            <div className="dropdown-text" >Log out</div>
+                            <div className="dropdown-text" onClick={() => handleLogout()}>Log out</div>
                         </div>
                     </div>
+
                     {/* Dropdown list end */}
                 </a>
             </div>

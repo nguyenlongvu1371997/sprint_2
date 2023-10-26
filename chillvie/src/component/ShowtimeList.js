@@ -1,7 +1,25 @@
 import { date } from "yup";
 import Header from "./Header";
+import { useEffect, useState } from "react";
+import { getMovieIsShowing } from "../service/MovieService";
+import { getShowtimesTodayByMovieId } from "../service/ShowtimesService";
+import { useNavigate } from "react-router-dom";
 
 export default function ShowtimeList() {
+    const [movies, setMovies] = useState([]);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        getMovie();
+    }, [])
+
+    const getMovie = async () => {
+        const res = await getMovieIsShowing();
+        setMovies((pre) => res);
+    }
+
+
 
     return (
         <>
@@ -13,11 +31,10 @@ export default function ShowtimeList() {
 
                 </div>
                 <div className="col-8">
-                    <Movie />
-                    <Movie />
-                    <Movie />
-                    <Movie />
-                    <Movie />
+                    {movies.map((movie) => (
+                        <Movie key={movie.id} movie={movie} />
+                    ))}
+
                 </div>
                 <div className="col-4">
                     <h1>
@@ -30,24 +47,39 @@ export default function ShowtimeList() {
     )
 }
 
-function Movie() {
+function Movie({ movie }) {
+    const [showtimes, setShowtime] = useState([]);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (movie.id > 0) {
+            getShowtimesByMovie();
+        }
+    }, [])
+
+    const getShowtimesByMovie = async () => {
+        const res = await getShowtimesTodayByMovieId(movie.id);
+        setShowtime((pre) => res);
+    }
+
+    const toSeat = (id) => {
+        navigate("/seats/" + id);
+    }
     return (
         <>
             <div className="row mt-3" style={{ height: '200px' }}>
-                <div className="col-2"><img src="https://m.media-amazon.com/images/M/MV5BMGEzZjdjMGQtZmYzZC00N2I4LThiY2QtNWY5ZmQ3M2ExZmM4XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_FMjpg_UX1000_.jpg"></img></div>
+                <div className="col-2"><img src={movie.picture}></img></div>
                 <div className="col-10">
-                    <p>The Creator</p>
-                    <p>Time: 2h30</p>
+                    <p>{movie.name}</p>
+                    <p>Time: {movie.showingTime} minutes</p>
                     <div className="w-100 flex">
                         <div>
-                            <span className="mx-2 px-2 border border-light rounded-3">12:30</span>
-                            <span className="mx-2 px-2 border border-light rounded-3">12:30</span>
-                            <span className="mx-2 px-2 border border-light rounded-3">12:30</span>
-                            <span className="mx-2 px-2 border border-light rounded-3">12:30</span>
-                            <span className="mx-2 px-2 border border-light rounded-3">12:30</span>
-                            <span className="mx-2 px-2 border border-light rounded-3">12:30</span>
-                            <span className="mx-2 px-2 border border-light rounded-3">12:30</span>
-
+                            {showtimes.map((showtime) => (
+                                <span onClick={()=>toSeat(showtime.id)} key={showtime.id} className="mx-2 px-2 border border-light rounded-3">
+                                    {showtime.timeShow.substring(11, 16)}
+                                </span>
+                            ))}
 
 
                         </div>

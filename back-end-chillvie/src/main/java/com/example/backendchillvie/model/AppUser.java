@@ -20,6 +20,11 @@ public class AppUser {
     public AppUser() {
     }
 
+    public AppUser(String name, String passwordUser) {
+        this.name = name;
+        this.passwordUser = passwordUser;
+    }
+
     public AppUser(Long id, String name, String passwordUser, RoleUser roleUser, boolean flagDeleted) {
         this.id = id;
         this.name = name;

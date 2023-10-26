@@ -18,6 +18,9 @@ public class Movie {
 
     private String trailer;
 
+    @Column(columnDefinition = "longText")
+    private String picture;
+
     private Integer showingTime;
     @ManyToOne
     @JoinColumn(name = "label_id", referencedColumnName = "id")
@@ -31,7 +34,7 @@ public class Movie {
     }
 
     public Movie(Long id, String name, String director, String actor, LocalDate releaseDate, String note,
-                 String trailer, Integer showingTime, Label label, boolean isShowing, boolean flagDeleted) {
+                 String trailer, String picture, Integer showingTime, Label label, boolean isShowing, boolean flagDeleted) {
         this.id = id;
         this.name = name;
         this.director = director;
@@ -39,6 +42,7 @@ public class Movie {
         this.releaseDate = releaseDate;
         this.note = note;
         this.trailer = trailer;
+        this.picture = picture;
         this.showingTime = showingTime;
         this.label = label;
         this.isShowing = isShowing;
@@ -55,6 +59,14 @@ public class Movie {
 
     public String getName() {
         return name;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     public void setName(String name) {
