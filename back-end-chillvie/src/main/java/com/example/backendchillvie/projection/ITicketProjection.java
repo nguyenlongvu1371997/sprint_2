@@ -10,4 +10,6 @@ public interface ITicketProjection {
     String getNameMovie();
 
     String getPicture();
+
+    Double getPrice();
 }

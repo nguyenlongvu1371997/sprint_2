@@ -202,8 +202,9 @@ export default function Seats() {
                             <div className='d-flex align-items-center'>
                                 <p className='seat bg-white' />
                                 <span>&nbsp; selected</span>
+                              
                             </div>
-
+  
                         </div>
                         <div>
                             {selected.map((seat) => (
@@ -211,9 +212,11 @@ export default function Seats() {
                             ))}
                         </div>
                         <div>
-                            <button onClick={()=>buyTicket()}>BUY</button>
+                           
                         </div>
                     </div>
+
+                    <h3 className='text-center'>Total price: {totalPrice} USD</h3>
                     <div id="paypal-button-container">
                                     <button style={{ width: '100%', border: '1px' }}
                                         onClick={() => handlePayment()}

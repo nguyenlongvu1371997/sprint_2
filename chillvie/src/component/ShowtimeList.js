@@ -38,10 +38,10 @@ export default function ShowtimeList() {
 
                 </div>
                 <div className="col-8">
-                    <select onChange={(event) => setDay(event.target.value)}>
-                        <option value={1}>Today: {today}</option>
-                        <option value={2}>Tomorrow: {tomorrow}</option>
-                        <option value={3}>Next 2 day: {dayAfterTomorrow}</option>
+                    <select className="form-select w-auto" aria-label="Default select example" onChange={(event) => setDay(event.target.value)}>
+                        <option value={1}>Today:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{today}</option>
+                        <option value={2}>Tomorrow:&nbsp;&nbsp;   {tomorrow}</option>
+                        <option value={3}>Next 2 day:&nbsp; {dayAfterTomorrow}</option>
                     </select>
                     {movies.map((movie) => (
                         <Movie key={movie.id} movie={movie} day={day} />

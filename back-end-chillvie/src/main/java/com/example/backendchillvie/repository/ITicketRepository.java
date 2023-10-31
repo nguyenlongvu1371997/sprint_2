@@ -18,7 +18,7 @@ public interface ITicketRepository extends JpaRepository<Ticket, Long> {
     void createSeat(@Param("idSeat") Long idSeat, @Param("idCustomer") Long idCustomer, @Param("price") Double price);
 
     @Query(nativeQuery = true, value = "select t.id as id,t.customer_id as customer,r.name as room, s.name as seat,\n" +
-            " st.time_show as timeShow, m.name as nameMovie, m.picture as picture \n" +
+            " st.time_show as timeShow, m.name as nameMovie, m.picture as picture, t.price as price \n" +
             "from ticket t \n" +
             "join seat s on t.seat_id = s.id \n" +
             "join showtimes st on s.showtime_id=st.id\n" +

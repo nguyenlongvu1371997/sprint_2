@@ -6,6 +6,7 @@ import { getListShowingMovie, getListUpcomingMovie } from "../service/MovieServi
 export default function Home() {
   const [showingMovies, setshowingMovies] = useState([]);
   const [upcomingMovies, setUpcomingMovies] = useState([]);
+  
 
 useEffect(()=>{
   getShowingMovies();

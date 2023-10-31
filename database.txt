@@ -1,0 +1,145 @@
+create database chillvie;
+
+use chillvie;
+
+create table kind_movie (
+id smallint primary key auto_increment,
+name varchar (255),
+flag_deleted bit
+);
+
+create table label (
+id smallint primary key auto_increment,
+name varchar (50),
+flag_deleted bit
+);
+
+create table movie (
+id bigint primary key auto_increment,
+name varchar(255),
+director varchar (255),
+actor varchar (255),
+release_date date,
+note varchar(500),
+trailer varchar(255),
+showing_time smallint,
+label_id smallint,
+foreign key (label_id) references label(id),
+is_showing bit,
+flag_deleted bit
+);
+
+create table kind_movie_detail(
+id bigint primary key auto_increment,
+movie_id bigint,
+foreign key(movie_id) references movie(id),
+kind_movie_id smallint,
+foreign key(kind_movie_id) references kind_movie(id)
+);
+
+
+create table role_user(
+id smallint primary key auto_increment,
+name varchar (255),
+flag_deleted bit
+);
+
+create table app_user(
+id bigint primary key auto_increment,
+name varchar(255),
+password_user varchar (255),
+role_user_id smallint,
+foreign key(role_user_id) references role_user(id),
+flag_deleted bit
+);
+
+create table positions(
+id smallint primary key auto_increment,
+name varchar(255),
+flag_deleted bit
+);
+
+create table employee(
+id bigint primary key auto_increment,
+name varchar(255),
+card_id varchar(15),
+phone_number varchar(15),
+date_of_birth date,
+email varchar(255),
+position_id smallint,
+foreign key (position_id) references positions(id),
+app_user_id bigint,
+foreign key (app_user_id) references app_user(id),
+flag_deleted bit
+);
+
+create table kind_customer(
+id smallint primary key auto_increment,
+name varchar(255),
+flag_deleted bit
+);
+
+create table customer(
+id bigint primary key auto_increment,
+name varchar(255),
+card_id varchar(15),
+phone_number varchar(15),
+date_of_birth date,
+email varchar(255),
+app_user_id bigint,
+foreign key (app_user_id) references app_user(id),
+kind_customer_id smallint,
+foreign key (kind_customer_id) references kind_customer(id),
+points double,
+flag_deleted bit
+);
+
+create table room(
+id smallint primary key auto_increment,
+name varchar(255),
+quantity_of_chair smallint,
+maintenance bit,
+flag_deleted bit
+);
+
+create table chair(
+id smallint primary key auto_increment,
+name varchar(255),
+room_id smallint,
+foreign key (room_id) references room(id),
+flag_deleted bit
+);
+
+create table showtimes(
+id bigint primary key auto_increment,
+time_show timestamp,
+movie_id bigint,
+foreign key(movie_id) references movie(id),
+room_id smallint,
+foreign key (room_id) references room(id),
+flag_deleted bit
+);
+
+create table seat(
+id bigint primary key auto_increment,
+name varchar(255),
+showtime_id bigint,
+foreign key(showtime_id) references showtimes(id),
+available bit,
+flag_deleted bit
+);
+
+create table ticket(
+id bigint primary key auto_increment,
+seat_id bigint,
+foreign key(seat_id) references seat(id),
+customer_id bigint,
+foreign key (customer_id) references customer(id),
+under_22 bit,
+price double
+);
+
+ALTER TABLE movie
+ADD picture longtext ;
+
+

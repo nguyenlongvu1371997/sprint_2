@@ -1,10 +1,14 @@
 import { Link, useNavigate } from "react-router-dom"
 import { logout } from "../service/AppUserService";
+import { useState } from "react";
 
 
 export default function Header() {
     const navigate = useNavigate();
-    const accessToken = localStorage.getItem("JWT");
+    const [accessToken, setAccessToken] = useState(localStorage.getItem("JWT"));
+    // if (localStorage.getItem("JWT")) {
+    //     setAccessToken();
+    // };
 
     const toLogin = () => {
         navigate('/login');
@@ -20,7 +24,7 @@ export default function Header() {
                 {/* Logo */}
                 <a href="/" className="logo"><Link className="text-light" to='/home'>Chillvie Cinema</Link></a>
                 {/* Search Box */}
-                <div className="search-box">
+                {/* <div className="search-box">
                     <input
                         type="search"
                         name="name"
@@ -28,7 +32,7 @@ export default function Header() {
                         placeholder="Search Movie"
                     />
                     <i className="bx bx-search" ></i>
-                </div>
+                </div> */}
                 {/* User */}
                 <div>
                     {/* Add your user-related content here */}
@@ -39,10 +43,14 @@ export default function Header() {
                         alt="user-img"
                         className="user-img"
                     />
-                    <span className="user-info">Login</span>
+                    {
+                        accessToken?<span className="user-info" onClick={()=>handleLogout()}>Logout</span>:<span className="user-info" onClick={()=>toLogin()}>Login</span>
+                    
+                    }
+                    
                     {/* Dropdown list Start */}
 
-                    <div className="dropdown-list">
+                    {/* <div className="dropdown-list">
                         <div className="dropdown-item">
                             <i className="bx bx-cog"></i>
                             <div className="dropdown-text" onClick={() => toLogin()}>Login</div>
@@ -51,7 +59,7 @@ export default function Header() {
                             <i className="bx bx-log-out-circle"></i>
                             <div className="dropdown-text" onClick={() => handleLogout()}>Log out</div>
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* Dropdown list end */}
                 </a>
@@ -64,7 +72,7 @@ export default function Header() {
                 <div><a><Link to='../showtime-list' className="text-light">Event</Link></a></div>
                 <div><a><Link to='../showtime-list' className="text-light">Price</Link></a></div>
                 <div><a><Link to='../showtime-list' className="text-light">Support</Link></a></div>
-                <div><a><Link to='../showtime-list' className="text-light">Member</Link></a></div>
+                <div><a><Link to='../history-ticket' className="text-light">History</Link></a></div>
             </div>
         </header>
     )
